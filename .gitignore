@@ -21,3 +21,18 @@ __pycache__/
 *.db3
 *.mcap
 *.pcd
+
+# Camera perception local environment and generated data
+.venv/
+venv/
+.env
+.env.*
+*.pt
+*.pth
+*.onnx
+*.engine
+/data/
+/datasets/
+/runs/
+/results/
+/bus.jpg

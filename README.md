@@ -43,23 +43,36 @@ Automated Regression Test
 Lightweight CI / CT
 ```
 
-## 진행 상태 (2026-10-22)
+## 진행 상태 (2026-10-31 업데이트)
 
 | 항목 | 상태 |
 |---|---|
-| RUS 연구 주제 및 10~12월 연구계획 변경안 정리 | 완료 (문서화) |
-| 9월 LiDAR Point Dropout 실험 | 기존 선행연구로 보존 |
-| Camera 데이터셋 / 모델 선정과 Baseline 평가 | 예정 |
-| 열화 Generator / 성능 평가 | 예정 |
-| Failure Boundary / 복합 열화 | 예정 |
+| 연구 주제 및 계획 변경안 정리 | 완료 (문서화; 공식 승인 여부 별도 확인) |
+| 9월 LiDAR Point Dropout | 선행연구로 보존 |
+| Python 가상환경·PyTorch·Ultralytics 설치 | 완료 |
+| RTX 3060 인식 및 GPU 계산 확인 | 완료 |
+| YOLO11n 예제 이미지 검출·결과 저장 | 완료: 사람 4명·버스 1대 |
+| KITTI 데이터 준비 및 GT 기반 정상 성능 평가 | 예정 |
+| 열화 생성 / 성능 비교 / Failure Boundary | 예정 |
 | Test Runner / Regression Test / CI | 예정 |
 
-아직 구현되지 않은 Camera 검증 기능은 완료로 표시하지 않습니다.
+첫 예제 검출은 **동작 확인**이며 정답 기반 성능 평가가 아닙니다.
+단일 실행의 추론 시간은 6.7 ms였으며 대표 성능이나 처리량으로 일반화하지 않습니다.
+
+- [실행 환경과 명령어](docs/environment.md)
+- [첫 검출 기록과 결과 이미지](docs/research_logs/2026-10-30_environment_and_first_detection.md)
+- [11월 5일 제출 및 학기 말 수정 일정](docs/roadmap_2026_10_31.md)
+
+![YOLO11n 첫 검출 결과](docs/assets/yolo11n_bus_first_prediction_2026-10-30.png)
+
+사용자 제공 실행 캡처. 입력은 Ultralytics 공식 예제 이미지이며 KITTI 평가 결과가 아닙니다.
+연구실 PC의 전체 `requirements_initial.txt`는 아직 확보하지 않았고, 확인된 주요 버전은 환경 문서에 기록했습니다.
 
 ## 일정 / 문서
 
 - [연구계획 변경안](docs/research_plan_2026_10_22.md)
-- [10~12월 주차별 로드맵](docs/roadmap_2026_10_22.md)
+- [현재 수정 일정](docs/roadmap_2026_10_31.md)
+- [10월 22일 초기 로드맵 (보존)](docs/roadmap_2026_10_22.md)
 - [Test Case / Metric 설계](docs/test_plan.md)
 - [연구 변경 이력](docs/CHANGELOG.md)
 - [Notion 연구일지·실험 기록](https://app.notion.com/p/f81225ee6937832b87c9019d33780aa7)
