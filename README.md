@@ -43,30 +43,36 @@ Automated Regression Test
 Lightweight CI / CT
 ```
 
-## 진행 상태 (2026-10-31 업데이트)
+## 진행 상태 (2026-11-01 업데이트)
 
 | 항목 | 상태 |
 |---|---|
 | 연구 주제 및 계획 변경안 정리 | 완료 (문서화; 공식 승인 여부 별도 확인) |
 | 9월 LiDAR Point Dropout | 선행연구로 보존 |
-| Python 가상환경·PyTorch·Ultralytics 설치 | 완료 |
-| RTX 3060 인식 및 GPU 계산 확인 | 완료 |
-| YOLO11n 예제 이미지 검출·결과 저장 | 완료: 사람 4명·버스 1대 |
-| KITTI 데이터 준비 및 GT 기반 정상 성능 평가 | 예정 |
-| 열화 생성 / 성능 비교 / Failure Boundary | 예정 |
-| Test Runner / Regression Test / CI | 예정 |
+| Python 가상환경·PyTorch·Ultralytics / RTX 3060 | 설치·GPU 계산·YOLO 예제 확인 완료 |
+| KITTI 데이터 준비 | training 이미지 7,481장 + 정답 7,481개 확인 |
+| 첫 이미지 GT·예측 비교 | 신뢰도 0.9067 / IoU 0.8850 |
+| 첫 10장 원본 및 밝기 예비 평가 | 완료 |
+| 고정 100장 밝기 4조건 예비 평가 | 완료: 자동차 GT 416, 보행자 GT 78 |
+| 결과표·그래프·GT별 검출 변화 분석 | 완료: 0.2배에서 새로 놓침 45개, 새로 찾음 11개 |
+| Blur / Noise / Fog / 실패 경계 | 미완료 |
+| 일괄 실행 | 밝기 생성·예측·평가·CSV 연결 완료; 범용 회귀검증·CI는 미완료 |
 
-첫 예제 검출은 **동작 확인**이며 정답 기반 성능 평가가 아닙니다.
-단일 실행의 추론 시간은 6.7 ms였으며 대표 성능이나 처리량으로 일반화하지 않습니다.
+밝기 1.0 → 0.2에서 자동차 Recall **69.47% → 61.78%**, 보행자 Recall **56.41% → 53.85%**.
+이는 **confidence 0.25, 정답 연결 IoU 0.5의 사용자 정의 예비 평가**이며 공식 KITTI 점수·AP/mAP·실차 야간 안전성 결과가 아닙니다.
 
+- [KITTI 준비부터 100장 밝기 실험까지 상세 기록](docs/research_logs/2026-11-01_kitti_brightness_pilot.md)
+- [100장 결과 CSV](docs/experiments/2026-11-01_brightness/brightness_summary_100.csv)
+- [10장 결과 CSV](docs/experiments/2026-11-01_brightness/brightness_summary_10.csv)
 - [실행 환경과 명령어](docs/environment.md)
-- [첫 검출 기록과 결과 이미지](docs/research_logs/2026-10-30_environment_and_first_detection.md)
-- [11월 5일 제출 및 학기 말 수정 일정](docs/roadmap_2026_10_31.md)
+- [첫 예제 검출 기록](docs/research_logs/2026-10-30_environment_and_first_detection.md)
+- [현재 일정과 실제 완료 상태](docs/roadmap_2026_10_31.md)
 
-![YOLO11n 첫 검출 결과](docs/assets/yolo11n_bus_first_prediction_2026-10-30.png)
+![100장 밝기별 성능](docs/assets/brightness_metrics_100.png)
 
-사용자 제공 실행 캡처. 입력은 Ultralytics 공식 예제 이미지이며 KITTI 평가 결과가 아닙니다.
-연구실 PC의 전체 `requirements_initial.txt`는 아직 확보하지 않았고, 확인된 주요 버전은 환경 문서에 기록했습니다.
+![000214 자동차 실패 비교](docs/assets/000214_car_newly_lost.png)
+
+CSV는 사용자 제공 터미널 출력, PNG는 사용자 첨부 원본입니다. 연구실 PC의 실제 Python 파일·100장 manifest·전체 상세 JSON·pip freeze 원본은 아직 저장소에 동기화하지 않았습니다. 상세 기록에 실행 파일 목록과 명령어를 남겼습니다.
 
 ## 일정 / 문서
 
