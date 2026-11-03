@@ -1,0 +1,11 @@
+{
+  "version": "draft_v0.1",
+  "status": "provisional",
+  "baseline_case": "original",
+  "classes": [
+    "car",
+    "person"
+  ],
+  "recall_retention_min": 0.9,
+  "require_all_classes": true
+}

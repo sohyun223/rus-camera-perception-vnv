@@ -1,5 +1,18 @@
 # Test Plan — Camera Perception Robustness & Automated V&V
 
+## 2026-11-03 구현·검증 상태
+
+- 실제 설정 형식은 JSON이며, 기존 10조건을 고정 100장에서 실행했다.
+- 기존 평가: conf=0.25, 정답 연결 IoU=0.5; NMS IoU=0.7과 구분한다.
+- [잠정 기준](../configs/validation_criteria.json): draft_v0.1 / provisional, 원본 대비 Recall 유지율 ≥ 0.9를 두 클래스 모두 만족해야 PASS. 원본은 REFERENCE.
+- 실제 판정 코드 입력: `python scripts/judge_validation.py --summary 결과폴더/summary.csv`; 출력은 같은 폴더의 judgement.csv.
+- 개별/통합 실행 집계 20/20행 일치, 경로 옵션 수정 후 기본 판정 PASS 6/FAIL 3 유지 확인.
+- Noise 22·25 추가 결과 판정 및 저장 확인.
+- 이 확인은 전체 모델 회귀 자동 탐지 구현·CI 완료를 뜻하지 않는다.
+- 최종 기준은 본 평가 전에 확정하며 고정 파일럿과 본 평가 표본을 분리한다.
+- 아래 2026-10-22 설계는 계획 원본이며 YAML·미측정 지표·예상 파일명은 실제 구현과 구분한다.
+
+
 > 설계 문서 (2026-10-22). 작성 당시 Camera 실험/CI는 **아직 구현·실행되지 않았음**.
 
 ## 검증 대상 및 공통 설정
