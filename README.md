@@ -43,36 +43,41 @@ Automated Regression Test
 Lightweight CI / CT
 ```
 
-## 진행 상태 (2026-11-01 업데이트)
+## 진행 상태 (2026-11-03 업데이트)
 
 | 항목 | 상태 |
 |---|---|
-| 연구 주제 및 계획 변경안 정리 | 완료 (문서화; 공식 승인 여부 별도 확인) |
-| 9월 LiDAR Point Dropout | 선행연구로 보존 |
-| Python 가상환경·PyTorch·Ultralytics / RTX 3060 | 설치·GPU 계산·YOLO 예제 확인 완료 |
-| KITTI 데이터 준비 | training 이미지 7,481장 + 정답 7,481개 확인 |
-| 첫 이미지 GT·예측 비교 | 신뢰도 0.9067 / IoU 0.8850 |
-| 첫 10장 원본 및 밝기 예비 평가 | 완료 |
-| 고정 100장 밝기 4조건 예비 평가 | 완료: 자동차 GT 416, 보행자 GT 78 |
-| 결과표·그래프·GT별 검출 변화 분석 | 완료: 0.2배에서 새로 놓침 45개, 새로 찾음 11개 |
-| Blur / Noise / Fog / 실패 경계 | 미완료 |
-| 일괄 실행 | 밝기 생성·예측·평가·CSV 연결 완료; 범용 회귀검증·CI는 미완료 |
+| KITTI·YOLO11n / 고정 100장 | 구축·원본 평가 완료; 자동차 GT 416, 보행자 GT 78 |
+| 원본 + 밝기·Blur·Noise 각 3단계 | 기존 10조건 평가 완료 |
+| Noise 30 실패 사례 분석 | 자동차 새로 놓침 66·새로 찾음 13, 보행자 18·0 |
+| JSON 설정 기반 통합 실행 | 100장 실행 완료; 개별 실행과 집계 20/20행 일치 |
+| 잠정 PASS/FAIL | draft_v0.1: 두 클래스 모두 원본 재현율 90% 이상 유지 |
+| 기존 9개 열화 조건 판정 | PASS 6 / FAIL 3; 원본은 REFERENCE |
+| 추가 Noise 25·22 | 모두 FAIL; 22는 보행자 유지율 88.64%로 미달 |
+| 판정 코드의 --summary 옵션 | 추가 결과 지정·저장 및 기존 기본 판정 유지 확인 |
+| 로컬 백업 | 4489.1 MB 압축 및 gzip 무결성 검사 완료 |
+| 최종 기준·독립 본 평가 | 미완료; 파일럿 검토 후 확정 |
+| Fog·복합 열화·mAP·전체 성능 회귀 자동화·CI | 미완료 |
 
-밝기 1.0 → 0.2에서 자동차 Recall **69.47% → 61.78%**, 보행자 Recall **56.41% → 53.85%**.
-이는 **confidence 0.25, 정답 연결 IoU 0.5의 사용자 정의 예비 평가**이며 공식 KITTI 점수·AP/mAP·실차 야간 안전성 결과가 아닙니다.
+현재 수치는 **conf=0.25, 정답 연결 IoU=0.5인 사용자 정의 파일럿 평가**다. 재현율 유지율과 재현율 자체를 구분한다. 예를 들어 Noise 22 보행자의 재현율은 50.00%, 원본 대비 유지율은 88.64%이다. 90% 유지 기준은 잠정 기준이며 정확한 최종 실패 경계나 실차 안전성을 확정한 결과가 아니다.
 
-- [KITTI 준비부터 100장 밝기 실험까지 상세 기록](docs/research_logs/2026-11-01_kitti_brightness_pilot.md)
-- [100장 결과 CSV](docs/experiments/2026-11-01_brightness/brightness_summary_100.csv)
-- [10장 결과 CSV](docs/experiments/2026-11-01_brightness/brightness_summary_10.csv)
-- [실행 환경과 명령어](docs/environment.md)
-- [첫 예제 검출 기록](docs/research_logs/2026-10-30_environment_and_first_detection.md)
+### 최신 기록과 결과
+
+- [10조건 통합 실행·잠정 판정·추가 Noise 탐색 상세 기록](docs/research_logs/2026-11-03_validation_and_noise_boundary.md)
+- [기존 10조건 평가 CSV](docs/experiments/2026-11-03_validation/validation_pilot_100_summary.csv)
+- [Noise 22 평가 CSV](docs/experiments/2026-11-03_validation/noise_22_summary.csv)
+- [Noise 25 평가 CSV](docs/experiments/2026-11-03_validation/noise_25_summary.csv)
+- [잠정 판정 설정](configs/validation_criteria.json)
+- [보고서 내용·사진 구성안](docs/report_outline_2026_11_05.md)
+- [초기 밝기 파일럿 상세 기록](docs/research_logs/2026-11-01_kitti_brightness_pilot.md)
+- [환경과 명령어](docs/environment.md)
 - [현재 일정과 실제 완료 상태](docs/roadmap_2026_10_31.md)
 
-![100장 밝기별 성능](docs/assets/brightness_metrics_100.png)
+실행 도구는 연구실 PC의 `scripts/run_validation.py`(열화 생성·추론·평가)와 `scripts/judge_validation.py`(저장 결과의 요구조건 판정)다. 이번 원격 갱신은 사용자 제공 터미널 수치로 재구성한 CSV·문서·잠정 기준 설정을 반영했다. 연구실 PC 최신 실제 소스·고정 100장 manifest·전체 상세 JSON·새 결과 이미지·패키지 목록·4.4GB 백업 자체를 업로드한 것은 아니다. 현재 저장소만으로 전체 실험을 재실행할 수 있는 단계는 아니다.
 
-![000214 자동차 실패 비교](docs/assets/000214_car_newly_lost.png)
+![기존 100장 밝기별 성능](docs/assets/brightness_metrics_100.png)
 
-CSV는 사용자 제공 터미널 출력, PNG는 사용자 첨부 원본입니다. 연구실 PC의 실제 Python 파일·100장 manifest·전체 상세 JSON·pip freeze 원본은 아직 저장소에 동기화하지 않았습니다. 상세 기록에 실행 파일 목록과 명령어를 남겼습니다.
+![기존 000214 자동차 실패 비교](docs/assets/000214_car_newly_lost.png)
 
 ## 일정 / 문서
 
